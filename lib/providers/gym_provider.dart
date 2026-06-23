@@ -12,16 +12,22 @@ class GymProvider extends ChangeNotifier {
 
   int get totalMembers => _gymMembers.length;
 
-  void addMember() {
+  void addMember(
+    String name,
+    String number,
+    String? email,
+    String membershipPlan,
+    String joinDate,
+  ) {
     _gymMembers.insert(
       0,
       GymMemberModel(
         id: _id.toString(),
-        name: "Tausif",
-        phone: "349875983745",
-        membershipPlan: "1 Month",
-        joinDate: DateTime.now(),
-        expiryDate: DateTime.now(),
+        name: name,
+        phone: number,
+        membershipPlan: membershipPlan,
+        joinDate: joinDate,
+        expiryDate: joinDate,
         isActive: true,
       ),
     );

@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CustomDatePicker extends StatefulWidget {
-  const CustomDatePicker({super.key});
+  const CustomDatePicker({super.key, required this.dateController});
+
+  final TextEditingController dateController;
 
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
 }
 
 class _CustomDatePickerState extends State<CustomDatePicker> {
-  // 1. Controller to update the text field
-  final TextEditingController _dateController = TextEditingController();
-
   @override
   void dispose() {
-    _dateController.dispose();
+    widget.dateController.dispose();
     super.dispose();
   }
 
@@ -33,7 +32,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         String day = pickedDate.day.toString().padLeft(2, '0');
         String year = pickedDate.year.toString();
 
-        _dateController.text = "$month/$day/$year";
+        widget.dateController.text = "$day/$month/$year";
       });
     }
   }
@@ -62,12 +61,12 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         const SizedBox(height: 8),
 
         TextFormField(
-          controller: _dateController,
+          controller: widget.dateController,
           readOnly: true,
           onTap: _selectDate,
           decoration: InputDecoration(
-            hintText: 'mm/dd/yyyy',
-            hintStyle: const TextStyle(color: Colors.black87),
+            hintText: 'dd-mm-yyyy',
+            hintStyle: const TextStyle(color: Colors.grey),
 
             prefixIcon: const Icon(
               Icons.calendar_today_outlined,

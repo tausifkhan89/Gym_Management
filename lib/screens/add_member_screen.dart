@@ -1,14 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:gym_management/providers/gym_provider.dart';
 import 'package:gym_management/widgets/custom_button.dart';
 import 'package:gym_management/widgets/custom_date_picker.dart';
 import 'package:gym_management/widgets/custom_text.dart';
 import 'package:gym_management/widgets/add_member_text_field.dart';
+import 'package:provider/provider.dart';
 
-class AddMemberScreen extends StatelessWidget {
+class AddMemberScreen extends StatefulWidget {
   const AddMemberScreen({super.key});
 
   @override
+  State<AddMemberScreen> createState() => _AddMemberScreenState();
+}
+
+class _AddMemberScreenState extends State<AddMemberScreen> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController membershipPlanController =
+      TextEditingController();
+  final TextEditingController joinDateController = TextEditingController();
+  final TextEditingController expiryDateController = TextEditingController();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    membershipPlanController.dispose();
+    joinDateController.dispose();
+    expiryDateController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final provider = context.watch<GymProvider>();
     return Scaffold(
       appBar: AppBar(title: CustomText(text: "Add New Member")),
       body: Padding(
@@ -31,19 +58,22 @@ class AddMemberScreen extends StatelessWidget {
                 CustomText(text: 'Add Photo'),
                 const SizedBox(height: 20),
 
-                const AddMemberTextField(
+                AddMemberTextField(
+                  textEditingController: nameController,
                   text: 'Member Name',
                   hintText: 'John Doe',
                   icon: Icons.person_outline,
                 ),
                 const SizedBox(height: 18),
-                const AddMemberTextField(
+                AddMemberTextField(
+                  textEditingController: phoneController,
                   text: 'Phone Number',
                   icon: Icons.phone_outlined,
                   hintText: '+923 838 7435',
                 ),
                 const SizedBox(height: 18),
-                const AddMemberTextField(
+                AddMemberTextField(
+                  textEditingController: emailController,
                   text: 'Email ID',
                   icon: Icons.email_outlined,
                   hintText: 'johnDoe@gmail.com',
@@ -73,7 +103,8 @@ class AddMemberScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                const DropdownMenu(
+                DropdownMenu(
+                  controller: membershipPlanController,
                   width: double.infinity,
                   hintText: "Select Membership",
                   leadingIcon: Icon(Icons.card_membership_rounded),
@@ -88,10 +119,11 @@ class AddMemberScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 18),
 
-                CustomDatePicker(),
+                CustomDatePicker(dateController: joinDateController),
                 const SizedBox(height: 18),
 
                 AddMemberTextField(
+                  textEditingController: joinDateController,
                   text: 'Expiry Date',
                   icon: Icons.free_cancellation_outlined,
                   hintText: 'mm/dd/yyyy',
@@ -108,11 +140,28 @@ class AddMemberScreen extends StatelessWidget {
                       text: 'Cancel',
                       bGcolor: Colors.white,
                       fGcolor: Colors.indigoAccent,
+                      function: () {
+                        setState(() {
+                          Navigator.pop(context);
+                        });
+                      },
                     ),
                     CustomButton(
                       text: 'Save Member',
                       fGcolor: Colors.white,
                       bGcolor: Colors.indigoAccent,
+                      icon: Icons.save_outlined,
+                      function: () {
+                        provider.addMember(
+                          nameController.text,
+                          phoneController.text,
+                          emailController.text,
+                          membershipPlanController.text,
+                          joinDateController.text.toString(),
+                        );
+
+                        Navigator.pop(context);
+                      },
                     ),
                   ],
                 ),

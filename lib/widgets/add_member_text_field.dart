@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_management/widgets/custom_text.dart';
 
@@ -8,6 +7,7 @@ class AddMemberTextField extends StatelessWidget {
     required this.text,
     required this.icon,
     required this.hintText,
+    required this.textEditingController,
     this.isOptional = false,
   });
 
@@ -15,6 +15,7 @@ class AddMemberTextField extends StatelessWidget {
   final IconData icon;
   final bool isOptional;
   final String hintText;
+  final TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class AddMemberTextField extends StatelessWidget {
           ],
         ),
         TextField(
+          controller: textEditingController,
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             hint: CustomText(text: hintText, fs: 16, color: Colors.grey),

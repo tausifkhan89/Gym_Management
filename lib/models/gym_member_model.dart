@@ -4,8 +4,8 @@ class GymMemberModel {
   final String phone;
   final String? email;
   final String membershipPlan;
-  final DateTime joinDate;
-  final DateTime expiryDate;
+  final String joinDate;
+  final String expiryDate;
   final bool isActive;
 
   GymMemberModel({
