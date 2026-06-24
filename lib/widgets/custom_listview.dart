@@ -26,8 +26,10 @@ class CustomListview extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      MemberProfile(member: provider.gymMembers[index]),
+                  builder: (context) => MemberProfile(
+                    member: provider.gymMembers[index],
+                    index: index,
+                  ),
                 ),
               );
             },

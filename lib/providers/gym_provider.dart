@@ -36,6 +36,27 @@ class GymProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateMember(
+    int index,
+    String iD,
+    String name,
+    String number,
+    String? email,
+    String membershipPlan,
+    String joinDate,
+  ) {
+    _gymMembers[index] = GymMemberModel(
+      id: iD,
+      name: name,
+      phone: number,
+      membershipPlan: membershipPlan,
+      joinDate: joinDate,
+      expiryDate: joinDate,
+      isActive: true,
+    );
+    notifyListeners();
+  }
+
   void deleteMember(GymMemberModel member) {
     _gymMembers.remove(member);
 

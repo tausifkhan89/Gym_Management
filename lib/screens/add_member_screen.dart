@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_management/models/gym_member_model.dart';
 import 'package:gym_management/providers/gym_provider.dart';
 import 'package:gym_management/widgets/custom_button.dart';
 import 'package:gym_management/widgets/custom_date_picker.dart';
@@ -7,20 +8,45 @@ import 'package:gym_management/widgets/add_member_text_field.dart';
 import 'package:provider/provider.dart';
 
 class AddMemberScreen extends StatefulWidget {
-  const AddMemberScreen({super.key});
+  const AddMemberScreen({
+    super.key,
+    this.isUpdate = false,
+    this.member,
+    this.index,
+  });
+
+  final bool isUpdate;
+  final int? index;
+  final GymMemberModel? member;
 
   @override
   State<AddMemberScreen> createState() => _AddMemberScreenState();
 }
 
 class _AddMemberScreenState extends State<AddMemberScreen> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController membershipPlanController =
-      TextEditingController();
-  final TextEditingController joinDateController = TextEditingController();
-  final TextEditingController expiryDateController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController membershipPlanController = TextEditingController();
+  TextEditingController joinDateController = TextEditingController();
+  TextEditingController expiryDateController = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.member != null) {
+      final mem = widget.member!;
+      nameController = TextEditingController(text: mem.name);
+
+      phoneController = TextEditingController(text: mem.phone);
+      emailController = TextEditingController(text: mem.email);
+      membershipPlanController = TextEditingController(
+        text: mem.membershipPlan,
+      );
+      joinDateController = TextEditingController(text: mem.joinDate);
+      expiryDateController = TextEditingController(text: mem.expiryDate);
+    }
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -36,8 +62,39 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<GymProvider>();
+
+    void update() {
+      provider.updateMember(
+        widget.index!,
+        widget.member!.id,
+        nameController.text,
+        phoneController.text,
+        emailController.text,
+        membershipPlanController.text,
+        joinDateController.text.toString(),
+      );
+      Navigator.pop(context);
+    }
+
+    void add() {
+      provider.addMember(
+        nameController.text,
+        phoneController.text,
+        emailController.text,
+        membershipPlanController.text,
+        joinDateController.text.toString(),
+      );
+
+      Navigator.pop(context);
+    }
+
     return Scaffold(
-      appBar: AppBar(title: CustomText(text: "Add New Member")),
+      appBar: AppBar(
+        title: CustomText(
+          text: widget.isUpdate ? "Update Member" : "Add New Member",
+          fw: 500,
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -152,15 +209,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                       bGcolor: Colors.indigoAccent,
                       icon: Icons.save_outlined,
                       function: () {
-                        provider.addMember(
-                          nameController.text,
-                          phoneController.text,
-                          emailController.text,
-                          membershipPlanController.text,
-                          joinDateController.text.toString(),
-                        );
-
-                        Navigator.pop(context);
+                        widget.isUpdate ? update() : add();
                       },
                     ),
                   ],

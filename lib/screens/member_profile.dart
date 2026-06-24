@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gym_management/models/gym_member_model.dart';
+import 'package:gym_management/screens/add_member_screen.dart';
 import 'package:gym_management/widgets/container_text.dart';
 import 'package:gym_management/widgets/custom_button.dart';
 import 'package:gym_management/widgets/custom_text.dart';
 
 class MemberProfile extends StatelessWidget {
-  const MemberProfile({super.key, required this.member});
+  const MemberProfile({super.key, required this.member, required this.index});
 
   final GymMemberModel member;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,21 @@ class MemberProfile extends StatelessWidget {
       appBar: AppBar(
         title: Text('Member Detail'),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.edit_outlined)),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddMemberScreen(
+                    isUpdate: true,
+                    member: member,
+                    index: index,
+                  ),
+                ),
+              );
+            },
+            icon: Icon(Icons.edit_outlined),
+          ),
         ],
       ),
       body: Center(
@@ -40,7 +56,7 @@ class MemberProfile extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.all(4),
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 204, 211, 255),
+                            color: const Color.fromARGB(255, 231, 234, 255),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Icon(
