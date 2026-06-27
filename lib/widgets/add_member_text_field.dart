@@ -32,6 +32,11 @@ class AddMemberTextField extends StatelessWidget {
         ),
         TextField(
           controller: textEditingController,
+          keyboardType: text == "Email ID"
+              ? TextInputType.emailAddress
+              : (text == "Phone Number"
+                    ? TextInputType.numberWithOptions()
+                    : TextInputType.name),
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             hint: CustomText(text: hintText, fs: 16, color: Colors.grey),

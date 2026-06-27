@@ -2,15 +2,16 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:gym_management/models/gym_member_model.dart';
+import 'package:uuid/uuid.dart';
 
 class GymProvider extends ChangeNotifier {
   final List<GymMemberModel> _gymMembers = [];
 
-  int _id = 1;
-
   List<GymMemberModel> get gymMembers => UnmodifiableListView(_gymMembers);
 
   int get totalMembers => _gymMembers.length;
+
+  final uuid = Uuid();
 
   void addMember(
     String name,
@@ -22,16 +23,16 @@ class GymProvider extends ChangeNotifier {
     _gymMembers.insert(
       0,
       GymMemberModel(
-        id: _id.toString(),
+        id: uuid.v4(),
         name: name,
         phone: number,
+        email: email,
         membershipPlan: membershipPlan,
         joinDate: joinDate,
         expiryDate: joinDate,
         isActive: true,
       ),
     );
-    _id++;
 
     notifyListeners();
   }

@@ -5,6 +5,7 @@ import 'package:gym_management/widgets/custom_button.dart';
 import 'package:gym_management/widgets/custom_date_picker.dart';
 import 'package:gym_management/widgets/custom_text.dart';
 import 'package:gym_management/widgets/add_member_text_field.dart';
+import 'package:gym_management/widgets/dialog_box.dart';
 import 'package:provider/provider.dart';
 
 class AddMemberScreen extends StatefulWidget {
@@ -59,6 +60,26 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
     super.dispose();
   }
 
+  String? validateFields() {
+    if (nameController.text.trim().isEmpty) {
+      return 'Member Name is required';
+    }
+
+    if (phoneController.text.trim().isEmpty) {
+      return 'Phone Number is required';
+    }
+
+    if (membershipPlanController.text.trim().isEmpty) {
+      return 'Membership Plan is required';
+    }
+
+    if (joinDateController.text.trim().isEmpty) {
+      return 'Join Date is required';
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<GymProvider>();
@@ -94,6 +115,28 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
           text: widget.isUpdate ? "Update Member" : "Add New Member",
           fw: 500,
         ),
+        actions: [
+          widget.isUpdate
+              ? IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return DialogBox(
+                          no: () {
+                            Navigator.pop(context);
+                          },
+                          yes: () {
+                            provider.deleteMember(widget.member!);
+                          },
+                        );
+                      },
+                    );
+                  },
+                  icon: Icon(Icons.delete_outline_outlined, color: Colors.red),
+                )
+              : SizedBox.shrink(),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -209,6 +252,18 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                       bGcolor: Colors.indigoAccent,
                       icon: Icons.save_outlined,
                       function: () {
+                        final error = validateFields();
+
+                        if (error != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(error),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                          return;
+                        }
+
                         widget.isUpdate ? update() : add();
                       },
                     ),

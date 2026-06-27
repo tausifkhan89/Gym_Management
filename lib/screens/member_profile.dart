@@ -39,7 +39,21 @@ class MemberProfile extends StatelessWidget {
           children: [
             CircleAvatar(radius: 70, child: Icon(Icons.person, size: 100)),
             CustomText(text: member.name, fs: 30, color: Colors.black, fw: 700),
-            CustomText(text: "ID: #${member.id}", color: Colors.grey),
+            const SizedBox(height: 18),
+            member.email != null
+                ? CustomText(
+                    text: "Email-ID: ${member.email}",
+                    color: Colors.grey,
+                  )
+                : CustomText(
+                    text: "Email-ID: Not Provided",
+                    color: Colors.grey,
+                  ),
+
+            CustomText(
+              text: "Phone Number: ${member.phone}",
+              color: Colors.grey,
+            ),
             const SizedBox(height: 18),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
