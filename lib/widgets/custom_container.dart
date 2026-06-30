@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gym_management/providers/theme_provider.dart';
+import 'package:gym_management/widgets/custom_text.dart';
+import 'package:provider/provider.dart';
 
 class CustomContainer extends StatelessWidget {
   const CustomContainer({
@@ -14,6 +17,7 @@ class CustomContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
     return Expanded(
       child: InkWell(
         onTap: () {},
@@ -23,7 +27,7 @@ class CustomContainer extends StatelessWidget {
           margin: EdgeInsets.all(12),
           height: 100,
           decoration: BoxDecoration(
-            color: Colors.white70,
+            color: themeProvider.isDark ? Colors.white24 : Colors.white70,
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(blurRadius: 10, color: color, offset: Offset(-2, 3)),
@@ -33,11 +37,8 @@ class CustomContainer extends StatelessWidget {
             child: Column(
               mainAxisAlignment: .center,
               children: [
-                Text(title, style: TextStyle(fontSize: 18)),
-                Text(
-                  value,
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight(500)),
-                ),
+                CustomText(text: title, fs: 18, color: Colors.black),
+                CustomText(text: value, fs: 22, fw: 500, color: Colors.black),
               ],
             ),
           ),

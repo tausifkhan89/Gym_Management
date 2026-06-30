@@ -45,8 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Members',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_2_outlined),
-            label: 'Profile',
+            icon: Icon(Icons.settings_outlined),
+            label: 'Settings',
           ),
         ],
       ),

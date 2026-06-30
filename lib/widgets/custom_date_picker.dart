@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gym_management/providers/theme_provider.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class CustomDatePicker extends StatefulWidget {
   const CustomDatePicker({super.key, required this.dateController});
@@ -12,11 +15,9 @@ class CustomDatePicker extends StatefulWidget {
 class _CustomDatePickerState extends State<CustomDatePicker> {
   @override
   void dispose() {
-    widget.dateController.dispose();
     super.dispose();
   }
 
-  // 2. The Date Picker Logic
   Future<void> _selectDate() async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -27,30 +28,28 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
 
     if (pickedDate != null) {
       setState(() {
-        // Formats the date to mm/dd/yyyy manually without extra packages
-        String month = pickedDate.month.toString().padLeft(2, '0');
-        String day = pickedDate.day.toString().padLeft(2, '0');
-        String year = pickedDate.year.toString();
-
-        widget.dateController.text = "$day/$month/$year";
+        widget.dateController.text = DateFormat(
+          'dd/MM/yyyy',
+        ).format(pickedDate);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RichText(
-          text: const TextSpan(
+          text: TextSpan(
             text: 'Join Date ',
             style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight(500),
+              fontWeight: const FontWeight(500),
               fontSize: 14,
+              color: themeProvider.isDark ? Colors.white : Colors.black,
             ),
-            children: [
+            children: const [
               TextSpan(
                 text: '*',
                 style: TextStyle(color: Colors.red),
@@ -68,24 +67,17 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
             hintText: 'dd-mm-yyyy',
             hintStyle: const TextStyle(color: Colors.grey),
 
-            prefixIcon: const Icon(
-              Icons.calendar_today_outlined,
-              color: Colors.black87,
-            ),
-            suffixIcon: const Icon(
-              Icons.calendar_today,
-              size: 20,
-              color: Colors.black87,
-            ),
+            prefixIcon: const Icon(Icons.calendar_today_outlined),
+            suffixIcon: const Icon(Icons.calendar_today, size: 20),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
+            focusedBorder: OutlineInputBorder(),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
-              borderSide: const BorderSide(color: Colors.indigoAccent),
+              borderSide: BorderSide(
+                color: themeProvider.isDark ? Colors.white60 : Colors.black,
+              ),
             ),
           ),
         ),

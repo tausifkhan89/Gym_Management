@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gym_management/models/gym_member_model.dart';
 import 'package:gym_management/providers/gym_provider.dart';
+import 'package:gym_management/providers/theme_provider.dart';
 import 'package:gym_management/widgets/custom_button.dart';
 import 'package:gym_management/widgets/custom_date_picker.dart';
 import 'package:gym_management/widgets/custom_text.dart';
 import 'package:gym_management/widgets/add_member_text_field.dart';
 import 'package:gym_management/widgets/dialog_box.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddMemberScreen extends StatefulWidget {
@@ -43,14 +45,44 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
       membershipPlanController = TextEditingController(
         text: mem.membershipPlan,
       );
-      joinDateController = TextEditingController(text: mem.joinDate);
-      expiryDateController = TextEditingController(text: mem.expiryDate);
+      joinDateController = TextEditingController(
+        text: DateFormat('dd/MM/yyyy').format(mem.joinDate),
+      );
+      expiryDateController = TextEditingController(
+        text: DateFormat('dd/MM/yyyy').format(mem.expiryDate),
+      );
     }
+    joinDateController.addListener(_calculateExpiryDate);
+    membershipPlanController.addListener(_calculateExpiryDate);
     super.initState();
+  }
+
+  void _calculateExpiryDate() {
+    if (joinDateController.text.isEmpty ||
+        membershipPlanController.text.isEmpty) {
+      expiryDateController.text = '';
+      return;
+    }
+    try {
+      DateTime joinDate = DateFormat(
+        'dd/MM/yyyy',
+      ).parse(joinDateController.text);
+      int months = int.parse(membershipPlanController.text.split(' ')[0]);
+      DateTime expiryDate = DateTime(
+        joinDate.year,
+        joinDate.month + months,
+        joinDate.day,
+      );
+      expiryDateController.text = DateFormat('dd/MM/yyyy').format(expiryDate);
+    } catch (e) {
+      expiryDateController.text = '';
+    }
   }
 
   @override
   void dispose() {
+    joinDateController.removeListener(_calculateExpiryDate);
+    membershipPlanController.removeListener(_calculateExpiryDate);
     nameController.dispose();
     phoneController.dispose();
     emailController.dispose();
@@ -77,12 +109,17 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
       return 'Join Date is required';
     }
 
+    if (expiryDateController.text.trim().isEmpty) {
+      return 'Expiry Date is required';
+    }
+
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<GymProvider>();
+    final themeProvider = context.watch<ThemeProvider>();
 
     void update() {
       provider.updateMember(
@@ -92,7 +129,8 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
         phoneController.text,
         emailController.text,
         membershipPlanController.text,
-        joinDateController.text.toString(),
+        DateFormat('dd/MM/yyyy').parse(joinDateController.text),
+        DateFormat('dd/MM/yyyy').parse(expiryDateController.text),
       );
       Navigator.pop(context);
     }
@@ -103,7 +141,8 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
         phoneController.text,
         emailController.text,
         membershipPlanController.text,
-        joinDateController.text.toString(),
+        DateFormat('dd/MM/yyyy').parse(joinDateController.text),
+        DateFormat('dd/MM/yyyy').parse(expiryDateController.text),
       );
 
       Navigator.pop(context);
@@ -189,9 +228,11 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                     text: TextSpan(
                       text: 'Membership Plan',
                       style: TextStyle(
-                        color: Colors.black,
                         fontSize: 14,
                         fontWeight: FontWeight(500),
+                        color: themeProvider.isDark
+                            ? Colors.white
+                            : Colors.black,
                       ),
                       children: [
                         TextSpan(
@@ -223,11 +264,12 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 const SizedBox(height: 18),
 
                 AddMemberTextField(
-                  textEditingController: joinDateController,
+                  textEditingController: expiryDateController,
                   text: 'Expiry Date',
                   icon: Icons.free_cancellation_outlined,
-                  hintText: 'mm/dd/yyyy',
+                  hintText: 'dd/mm/yyyy',
                   isOptional: true,
+                  readOnly: true,
                 ),
                 const SizedBox(height: 18),
 

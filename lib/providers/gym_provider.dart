@@ -11,6 +11,28 @@ class GymProvider extends ChangeNotifier {
 
   int get totalMembers => _gymMembers.length;
 
+  List<GymMemberModel> get activeMembers => UnmodifiableListView(
+    _gymMembers.where((member) {
+      return member.isActive == true;
+    }),
+  ).toList();
+
+  List<GymMemberModel> get expiredMembers => UnmodifiableListView(
+    _gymMembers.where((member) {
+      return member.isActive == false;
+    }),
+  ).toList();
+
+  List<GymMemberModel> get expiringSoonMembers {
+    final today = DateTime.now();
+
+    return _gymMembers.where((member) {
+      final difference = member.expiryDate.difference(today).inDays;
+
+      return difference >= 0 && difference <= 3;
+    }).toList();
+  }
+
   final uuid = Uuid();
 
   void addMember(
@@ -18,7 +40,8 @@ class GymProvider extends ChangeNotifier {
     String number,
     String? email,
     String membershipPlan,
-    String joinDate,
+    DateTime joinDate,
+    DateTime expiryDate,
   ) {
     _gymMembers.insert(
       0,
@@ -29,7 +52,7 @@ class GymProvider extends ChangeNotifier {
         email: email,
         membershipPlan: membershipPlan,
         joinDate: joinDate,
-        expiryDate: joinDate,
+        expiryDate: expiryDate,
         isActive: true,
       ),
     );
@@ -44,7 +67,8 @@ class GymProvider extends ChangeNotifier {
     String number,
     String? email,
     String membershipPlan,
-    String joinDate,
+    DateTime joinDate,
+    DateTime expiryDate,
   ) {
     _gymMembers[index] = GymMemberModel(
       id: iD,
@@ -52,7 +76,7 @@ class GymProvider extends ChangeNotifier {
       phone: number,
       membershipPlan: membershipPlan,
       joinDate: joinDate,
-      expiryDate: joinDate,
+      expiryDate: expiryDate,
       isActive: true,
     );
     notifyListeners();

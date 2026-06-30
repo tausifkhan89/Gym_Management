@@ -6,13 +6,13 @@ class CustomText extends StatelessWidget {
     required this.text,
     this.fs = 18,
     this.fw = 400,
-    this.color = Colors.black,
+    this.color,
   });
 
   final String text;
   final double? fs;
   final int fw;
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {

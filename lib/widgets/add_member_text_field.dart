@@ -9,11 +9,13 @@ class AddMemberTextField extends StatelessWidget {
     required this.hintText,
     required this.textEditingController,
     this.isOptional = false,
+    this.readOnly = false,
   });
 
   final String text;
   final IconData icon;
   final bool isOptional;
+  final bool readOnly;
   final String hintText;
   final TextEditingController textEditingController;
 
@@ -32,6 +34,7 @@ class AddMemberTextField extends StatelessWidget {
         ),
         TextField(
           controller: textEditingController,
+          readOnly: readOnly,
           keyboardType: text == "Email ID"
               ? TextInputType.emailAddress
               : (text == "Phone Number"

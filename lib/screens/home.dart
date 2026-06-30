@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
 
                 CustomContainer(
                   title: 'Active Members',
-                  value: provider.totalMembers.toString(),
+                  value: provider.activeMembers.length.toString(),
                   color: Colors.green,
                 ),
               ],
@@ -43,13 +43,13 @@ class _HomeState extends State<Home> {
               children: [
                 CustomContainer(
                   title: 'Expiring Soon',
-                  value: provider.totalMembers.toString(),
+                  value: provider.expiringSoonMembers.length.toString(),
                   color: Colors.yellow.shade800,
                 ),
 
                 CustomContainer(
                   title: 'Expired Members',
-                  value: provider.totalMembers.toString(),
+                  value: provider.expiredMembers.length.toString(),
                   color: Colors.red,
                 ),
               ],
