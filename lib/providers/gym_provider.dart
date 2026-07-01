@@ -1,32 +1,35 @@
 import 'dart:collection';
-
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_management/models/gym_member_model.dart';
 import 'package:uuid/uuid.dart';
 
 class GymProvider extends ChangeNotifier {
-  final List<GymMemberModel> _gymMembers = [];
+  GymProvider() {
+    _memberBox = Hive.box<GymMemberModel>('members');
+  }
+  late final Box<GymMemberModel> _memberBox;
 
-  List<GymMemberModel> get gymMembers => UnmodifiableListView(_gymMembers);
+  List<GymMemberModel> get gymMembers => _memberBox.values.toList();
 
-  int get totalMembers => _gymMembers.length;
+  int get totalMembers => gymMembers.length;
 
   List<GymMemberModel> get activeMembers => UnmodifiableListView(
-    _gymMembers.where((member) {
-      return member.isActive == true;
+    gymMembers.where((member) {
+      return member.expiryDate.isAfter(DateTime.now());
     }),
   ).toList();
 
   List<GymMemberModel> get expiredMembers => UnmodifiableListView(
-    _gymMembers.where((member) {
-      return member.isActive == false;
+    gymMembers.where((member) {
+      return member.expiryDate.isBefore(DateTime.now());
     }),
   ).toList();
 
   List<GymMemberModel> get expiringSoonMembers {
     final today = DateTime.now();
 
-    return _gymMembers.where((member) {
+    return gymMembers.where((member) {
       final difference = member.expiryDate.difference(today).inDays;
 
       return difference >= 0 && difference <= 3;
@@ -43,8 +46,7 @@ class GymProvider extends ChangeNotifier {
     DateTime joinDate,
     DateTime expiryDate,
   ) {
-    _gymMembers.insert(
-      0,
+    _memberBox.add(
       GymMemberModel(
         id: uuid.v4(),
         name: name,
@@ -53,7 +55,6 @@ class GymProvider extends ChangeNotifier {
         membershipPlan: membershipPlan,
         joinDate: joinDate,
         expiryDate: expiryDate,
-        isActive: true,
       ),
     );
 
@@ -70,20 +71,23 @@ class GymProvider extends ChangeNotifier {
     DateTime joinDate,
     DateTime expiryDate,
   ) {
-    _gymMembers[index] = GymMemberModel(
-      id: iD,
-      name: name,
-      phone: number,
-      membershipPlan: membershipPlan,
-      joinDate: joinDate,
-      expiryDate: expiryDate,
-      isActive: true,
+    _memberBox.putAt(
+      index,
+      GymMemberModel(
+        id: iD,
+        name: name,
+        phone: number,
+        email: email,
+        membershipPlan: membershipPlan,
+        joinDate: joinDate,
+        expiryDate: expiryDate,
+      ),
     );
     notifyListeners();
   }
 
-  void deleteMember(GymMemberModel member) {
-    _gymMembers.remove(member);
+  Future<void> deleteMember(GymMemberModel member) async {
+    await member.delete();
 
     notifyListeners();
   }

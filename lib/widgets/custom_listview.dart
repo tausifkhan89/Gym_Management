@@ -1,6 +1,8 @@
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:gym_management/models/gym_member_model.dart';
 import 'package:gym_management/providers/gym_provider.dart';
 import 'package:gym_management/screens/member_profile.dart';
 import 'package:gym_management/widgets/custom_text.dart';
@@ -111,33 +113,29 @@ class CustomListview extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusChip(dynamic member) {
+  Widget _buildStatusChip(GymMemberModel member) {
     Color bgColor;
     Color borderColor;
     Color textColor;
     String text;
 
-    /// Replace this with your own status field
-    switch (member.isActive) {
-      case "Expired":
-        bgColor = Colors.red.shade50;
-        borderColor = Colors.red.shade300;
-        textColor = Colors.red.shade700;
-        text = "● Expired";
-        break;
+    final difference = member.expiryDate.difference(DateTime.now()).inDays;
 
-      case "Active":
-        bgColor = Colors.orange.shade50;
-        borderColor = Colors.orange.shade300;
-        textColor = Colors.orange.shade700;
-        text = "● Expiring Soon";
-
-      default:
-        bgColor = Colors.green.shade50;
-        borderColor = Colors.green.shade300;
-        textColor = Colors.green.shade700;
-        text = "● Active";
-        break;
+    if (difference < 0) {
+      bgColor = Colors.red.shade50;
+      borderColor = Colors.red.shade300;
+      textColor = Colors.red.shade700;
+      text = "● Expired";
+    } else if (difference <= 3) {
+      bgColor = Colors.orange.shade50;
+      borderColor = Colors.orange.shade300;
+      textColor = Colors.orange.shade700;
+      text = "● Expiring Soon";
+    } else {
+      bgColor = Colors.green.shade50;
+      borderColor = Colors.green.shade300;
+      textColor = Colors.green.shade700;
+      text = "● Active";
     }
 
     return Container(

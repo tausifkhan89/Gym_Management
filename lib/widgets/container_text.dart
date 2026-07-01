@@ -14,7 +14,7 @@ class ContainerText extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: .spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomText(text: text, color: Colors.grey.shade600),
               CustomText(text: data, fw: 600),

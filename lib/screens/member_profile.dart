@@ -4,6 +4,7 @@ import 'package:gym_management/screens/add_member_screen.dart';
 import 'package:gym_management/widgets/container_text.dart';
 import 'package:gym_management/widgets/custom_button.dart';
 import 'package:gym_management/widgets/custom_text.dart';
+import 'package:intl/intl.dart';
 
 class MemberProfile extends StatelessWidget {
   const MemberProfile({super.key, required this.member, required this.index});
@@ -90,13 +91,13 @@ class MemberProfile extends StatelessWidget {
                     // Joined
                     ContainerText(
                       text: "Joined",
-                      data: member.joinDate.toString(),
+                      data: DateFormat("dd-MM-yyyy").format(member.joinDate),
                     ),
 
                     //Expires
                     ContainerText(
                       text: "Expires",
-                      data: member.expiryDate.toString(),
+                      data: DateFormat("dd-MM-yyyy").format(member.expiryDate),
                     ),
 
                     const SizedBox(height: 10),

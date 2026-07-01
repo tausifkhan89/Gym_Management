@@ -276,7 +276,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 Divider(),
 
                 Row(
-                  mainAxisAlignment: .center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomButton(
                       text: 'Cancel',

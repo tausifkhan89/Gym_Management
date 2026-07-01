@@ -20,7 +20,7 @@ class DialogBox extends StatelessWidget {
           children: [
             CustomText(text: "Do you really wanted to remove the user?"),
             Row(
-              mainAxisAlignment: .center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomButton(
                   text: "No",

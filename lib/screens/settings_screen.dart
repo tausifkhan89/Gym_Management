@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_management/providers/theme_provider.dart';
+import 'package:gym_management/widgets/custom_text.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -15,7 +16,8 @@ class SettingsScreenState extends State<SettingsScreen> {
     final provider = context.watch<ThemeProvider>();
     return Scaffold(
       appBar: AppBar(title: Text('Settings Screen')),
-      body: Switch(
+      body: SwitchListTile(
+        title: CustomText(text: "Dark Mode"),
         value: provider.isDark,
         onChanged: (value) {
           provider.toggleTheme();
