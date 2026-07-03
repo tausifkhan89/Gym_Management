@@ -13,7 +13,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = context.watch<GymProvider>();
     return Scaffold(
-      appBar: AppBar(title: Text('Gym Management')),
+      appBar: AppBar(title: Text('Dashboard')),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(

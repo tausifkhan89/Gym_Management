@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
     final provider = context.watch<ThemeProvider>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Gym Management",
+      title: "GymPulse",
       theme: provider.theme,
 
       home: HomeScreen(),
