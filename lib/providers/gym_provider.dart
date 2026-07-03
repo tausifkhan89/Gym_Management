@@ -38,6 +38,34 @@ class GymProvider extends ChangeNotifier {
 
   final uuid = Uuid();
 
+  bool _isSearching = false;
+
+  bool get isSearching => _isSearching;
+
+  List<GymMemberModel> _filteredList = [];
+
+  List<GymMemberModel> get membersToShow =>
+      _isSearching ? _filteredList : gymMembers;
+
+  void clearSearch() {
+    _isSearching = false;
+    _filteredList = [];
+  }
+
+  void search(String query) {
+    if (query.trim().isEmpty) {
+      _isSearching = false;
+      _filteredList = [];
+    } else {
+      _isSearching = true;
+      _filteredList = _memberBox.values.where((member) {
+        return member.name.toLowerCase().contains(query.toLowerCase()) ||
+            member.phone.contains(query.toLowerCase());
+      }).toList();
+    }
+    notifyListeners();
+  }
+
   void addMember(
     String name,
     String number,

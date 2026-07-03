@@ -12,7 +12,6 @@ class DialogBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: CustomText(text: "Delete", fs: 24, fw: 500),
-      backgroundColor: const Color.fromARGB(255, 219, 232, 255),
 
       content: SizedBox(
         height: 120,

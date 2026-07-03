@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gym_management/providers/gym_provider.dart';
 import 'package:gym_management/screens/home.dart';
 import 'package:gym_management/screens/members_list.dart';
 import 'package:gym_management/screens/settings_screen.dart';
 import 'package:gym_management/widgets/custom_text.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Widget> widgetList = [Home(), MembersList(), SettingsScreen()];
   int myIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -26,11 +27,18 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Colors.indigoAccent,
         ),
       ),
-      body: widgetList[myIndex],
+      body: switch (myIndex) {
+        0 => const Home(),
+        1 => const MembersList(),
+        _ => const SettingsScreen(),
+      },
 
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: myIndex,
         onTap: (index) {
+          if (myIndex == 1) {
+            context.read<GymProvider>().clearSearch();
+          }
           setState(() {
             myIndex = index;
           });

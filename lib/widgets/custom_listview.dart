@@ -1,6 +1,4 @@
-
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:gym_management/models/gym_member_model.dart';
 import 'package:gym_management/providers/gym_provider.dart';
@@ -22,10 +20,12 @@ class CustomListview extends StatelessWidget {
       shrinkWrap: true,
       physics: const BouncingScrollPhysics(),
       itemCount: isLimited
-          ? min(provider.totalMembers, 5)
-          : provider.totalMembers,
+          ? min(provider.gymMembers.length, 5)
+          : provider.membersToShow.length,
       itemBuilder: (context, index) {
-        final member = provider.gymMembers[index];
+        final member = isLimited
+            ? provider.gymMembers[index]
+            : provider.membersToShow[index];
 
         return InkWell(
           borderRadius: BorderRadius.circular(18),
@@ -41,7 +41,7 @@ class CustomListview extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(12),
               side: BorderSide(color: Colors.grey.shade300),
             ),
             child: Padding(

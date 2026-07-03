@@ -39,7 +39,7 @@ class MemberProfile extends StatelessWidget {
         child: Column(
           children: [
             CircleAvatar(radius: 70, child: Icon(Icons.person, size: 100)),
-            CustomText(text: member.name, fs: 30, color: Colors.black, fw: 700),
+            CustomText(text: member.name, fs: 30, fw: 700),
             const SizedBox(height: 18),
             member.email != null
                 ? CustomText(

@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gym_management/providers/gym_provider.dart';
-import 'package:gym_management/screens/add_member_screen.dart';
 import 'package:gym_management/widgets/custom_container.dart';
 import 'package:gym_management/widgets/custom_listview.dart';
 import 'package:gym_management/widgets/custom_text.dart';
+import 'package:gym_management/widgets/fab.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   const Home({super.key});
 
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<GymProvider>();
@@ -61,24 +56,22 @@ class _HomeState extends State<Home> {
             Expanded(
               child: provider.totalMembers == 0
                   ? Center(
-                      child: CustomText(text: 'No recently added members.'),
+                      child: CustomText(
+                        text: '''🏋️
+        
+        No Recently Added Members Yet
+        
+        Tap + to add your first member.
+        ''',
+                        textAlign: TextAlign.center,
+                      ),
                     )
                   : CustomListview(isLimited: true),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddMemberScreen()),
-          );
-        },
-        backgroundColor: Colors.indigoAccent,
-        foregroundColor: Colors.white,
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: Fab(),
     );
   }
 }
