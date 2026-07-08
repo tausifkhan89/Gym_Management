@@ -4,6 +4,7 @@ import 'package:gym_management/screens/add_member_screen.dart';
 import 'package:gym_management/widgets/container_text.dart';
 import 'package:gym_management/widgets/custom_button.dart';
 import 'package:gym_management/widgets/custom_text.dart';
+import 'package:gym_management/widgets/renew_member.dart';
 import 'package:intl/intl.dart';
 
 class MemberProfile extends StatelessWidget {
@@ -35,91 +36,105 @@ class MemberProfile extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          children: [
-            CircleAvatar(radius: 70, child: Icon(Icons.person, size: 100)),
-            CustomText(text: member.name, fs: 30, fw: 700),
-            const SizedBox(height: 18),
-            member.email != null
-                ? CustomText(
-                    text: "Email-ID: ${member.email}",
-                    color: Colors.grey,
-                  )
-                : CustomText(
-                    text: "Email-ID: Not Provided",
-                    color: Colors.grey,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              CircleAvatar(radius: 70, child: Icon(Icons.person, size: 100)),
+              CustomText(text: member.name, fs: 30, fw: 700),
+              const SizedBox(height: 18),
+              member.email != null
+                  ? CustomText(
+                      text: "Email-ID: ${member.email}",
+                      color: Colors.grey,
+                    )
+                  : CustomText(
+                      text: "Email-ID: Not Provided",
+                      color: Colors.grey,
+                    ),
+
+              CustomText(
+                text: "Phone Number: ${member.phone}",
+                color: Colors.grey,
+              ),
+              const SizedBox(height: 18),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: BoxBorder.all(
+                      width: 1,
+                      color: Colors.grey.shade300,
+                    ),
                   ),
-
-            CustomText(
-              text: "Phone Number: ${member.phone}",
-              color: Colors.grey,
-            ),
-            const SizedBox(height: 18),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: BoxBorder.all(width: 1, color: Colors.grey.shade300),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 231, 234, 255),
-                            borderRadius: BorderRadius.circular(8),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 231, 234, 255),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Icon(
+                              Icons.card_membership,
+                              size: 40,
+                              color: Colors.indigoAccent,
+                            ),
                           ),
-                          child: Icon(
-                            Icons.card_membership,
-                            size: 40,
-                            color: Colors.indigoAccent,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        CustomText(text: 'Membership', fw: 500, fs: 24),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    // Plan
-                    ContainerText(text: 'Plan', data: member.membershipPlan),
+                          const SizedBox(width: 10),
+                          CustomText(text: 'Membership', fw: 500, fs: 24),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      // Plan
+                      ContainerText(text: 'Plan', data: member.membershipPlan),
 
-                    // Joined
-                    ContainerText(
-                      text: "Joined",
-                      data: DateFormat("dd-MM-yyyy").format(member.joinDate),
-                    ),
+                      // Joined
+                      ContainerText(
+                        text: "Joined",
+                        data: DateFormat("dd-MM-yyyy").format(member.joinDate),
+                      ),
 
-                    //Expires
-                    ContainerText(
-                      text: "Expires",
-                      data: DateFormat("dd-MM-yyyy").format(member.expiryDate),
-                    ),
+                      //Expires
+                      ContainerText(
+                        text: "Expires",
+                        data: DateFormat(
+                          "dd-MM-yyyy",
+                        ).format(member.expiryDate),
+                      ),
 
-                    const SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
-                    CustomText(
-                      text: "Extend Membership manually",
-                      fs: 16,
-                      color: Colors.grey.shade600,
-                    ),
+                      CustomText(
+                        text: "Extend Membership manually",
+                        fs: 16,
+                        color: Colors.grey.shade600,
+                      ),
 
-                    CustomButton(
-                      text: 'Pay On Cash',
-                      bGcolor: Colors.indigoAccent,
-                      fGcolor: Colors.white,
-                      icon: Icons.payments_outlined,
-                      function: () {},
-                    ),
-                  ],
+                      CustomButton(
+                        text: 'Renew Membership',
+                        bGcolor: Colors.indigoAccent,
+                        fGcolor: Colors.white,
+                        icon: Icons.payments_outlined,
+                        function: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RenewMember(member: member),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

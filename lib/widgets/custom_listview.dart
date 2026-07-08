@@ -98,7 +98,7 @@ class CustomListview extends StatelessWidget {
                   const SizedBox(height: 4),
 
                   Text(
-                    DateFormat('dd/MM/yyyy').format(member.joinDate),
+                    DateFormat('dd/MM/yyyy').format(member.expiryDate),
                     style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w500,

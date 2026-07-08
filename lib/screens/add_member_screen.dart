@@ -7,6 +7,7 @@ import 'package:gym_management/widgets/custom_date_picker.dart';
 import 'package:gym_management/widgets/custom_text.dart';
 import 'package:gym_management/widgets/add_member_text_field.dart';
 import 'package:gym_management/widgets/dialog_box.dart';
+import 'package:gym_management/widgets/membership_plan_dropdown.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -244,19 +245,8 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                   ),
                 ),
                 const SizedBox(height: 4),
-                DropdownMenu(
-                  controller: membershipPlanController,
-                  width: double.infinity,
-                  hintText: "Select Membership",
-                  leadingIcon: Icon(Icons.card_membership_rounded),
-                  trailingIcon: Icon(Icons.keyboard_arrow_down_rounded),
-
-                  dropdownMenuEntries: [
-                    DropdownMenuEntry(value: "1 month", label: '1 month'),
-                    DropdownMenuEntry(value: "3 month", label: '3 month'),
-                    DropdownMenuEntry(value: "6 month", label: '6 month'),
-                    DropdownMenuEntry(value: "12 month", label: '12 month'),
-                  ],
+                MembershipPlanDropdown(
+                  membershipPlanController: membershipPlanController,
                 ),
                 const SizedBox(height: 18),
 

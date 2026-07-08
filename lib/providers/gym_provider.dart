@@ -10,7 +10,8 @@ class GymProvider extends ChangeNotifier {
   }
   late final Box<GymMemberModel> _memberBox;
 
-  List<GymMemberModel> get gymMembers => _memberBox.values.toList();
+  List<GymMemberModel> get gymMembers =>
+      _memberBox.values.toList().reversed.toList();
 
   int get totalMembers => gymMembers.length;
 
