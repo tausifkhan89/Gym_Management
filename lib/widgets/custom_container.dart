@@ -33,8 +33,19 @@ class CustomContainer extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CustomText(text: title, fs: 18, color: Colors.black),
-              CustomText(text: value, fs: 22, fw: 500, color: Colors.black),
+              CustomText(
+                text: title,
+                fs: 18,
+                color: Colors.black,
+                textAlign: TextAlign.center,
+              ),
+              CustomText(
+                text: value,
+                fs: 22,
+                fw: 500,
+                color: Colors.black,
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),

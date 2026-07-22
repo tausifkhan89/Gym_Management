@@ -35,12 +35,7 @@ class _MembersListState extends State<MembersList> {
               ? Expanded(
                   child: Center(
                     child: CustomText(
-                      text: """🏋️
-              
-No Members Yet
-              
-Tap + to add your first member.
-              """,
+                      text: "🏋️\n No Members Yet\nTap + to add your first member.",
                       textAlign: TextAlign.center,
                     ),
                   ),

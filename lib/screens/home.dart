@@ -57,12 +57,8 @@ class Home extends StatelessWidget {
               child: provider.totalMembers == 0
                   ? Center(
                       child: CustomText(
-                        text: '''🏋️
-        
-        No Recently Added Members Yet
-        
-        Tap + to add your first member.
-        ''',
+                        text:
+                            "🏋️\nNo Recently Added Members Yet\nTap + to add your first member.",
                         textAlign: TextAlign.center,
                       ),
                     )
