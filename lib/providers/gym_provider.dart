@@ -121,6 +121,7 @@ class GymProvider extends ChangeNotifier {
       user.expiryDate = newDate;
 
       await user.save();
+      notifyListeners();
     }
   }
 

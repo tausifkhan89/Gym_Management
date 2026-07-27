@@ -115,10 +115,12 @@ class _RenewMemberState extends State<RenewMember> {
                       fs: 22,
                     ),
                     const SizedBox(height: 20),
+                    // Plan
                     MembershipPlanDropdown(
                       membershipPlanController: membershipPlanController,
                     ),
-                    // Plan
+
+                    const SizedBox(height: 20),
 
                     //Expires
                     ContainerText(
@@ -141,7 +143,7 @@ class _RenewMemberState extends State<RenewMember> {
                           },
                         ),
                         CustomButton(
-                          text: 'Save Member',
+                          text: 'Save',
                           fGcolor: Colors.white,
                           bGcolor: Colors.indigoAccent,
                           icon: Icons.save_outlined,
