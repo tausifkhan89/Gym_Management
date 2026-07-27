@@ -124,7 +124,8 @@ class MemberProfile extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => RenewMember(member: member),
+                              builder: (context) =>
+                                  RenewMember(index: index, member: member),
                             ),
                           );
                         },

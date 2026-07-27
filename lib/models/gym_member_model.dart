@@ -23,7 +23,7 @@ class GymMemberModel extends HiveObject {
   final DateTime joinDate;
 
   @HiveField(6)
-  final DateTime expiryDate;
+  DateTime expiryDate;
 
   GymMemberModel({
     required this.id,

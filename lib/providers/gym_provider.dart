@@ -115,6 +115,15 @@ class GymProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void extendMembership(int index, DateTime newDate) async {
+    final user = _memberBox.getAt(index);
+    if (user != null) {
+      user.expiryDate = newDate;
+
+      await user.save();
+    }
+  }
+
   Future<void> deleteMember(GymMemberModel member) async {
     await member.delete();
 
